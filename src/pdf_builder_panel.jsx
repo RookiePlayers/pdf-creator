@@ -1,7 +1,7 @@
 import { Button, Card, CardContent, CircularProgress, Container, Grid, TextField, Typography } from "@mui/material";
 import Column from "./components/Column";
 import Row from "./components/Row";
-import { useEffect, useState } from "react";
+import { Fragment, useEffect, useRef, useState } from "react";
 import { StandardFonts } from "pdf-lib";
 import shortid from "shortid";
 import TextComponent from "./components/text_component";
@@ -13,6 +13,8 @@ import LineComponent from "./components/line_component";
 const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: componentDefault, onUpdated,onPageSettingUpdated}) => {
   const [components, setComponents] = useState(componentDefault??[]);
   const [generating, setGenerating] = useState(false);
+  const fileUploadRef = useRef(null)
+
   const [pageSettings, setPageSettings] = useState(pageSettingDefault??{
     width: window.innerWidth, 
     height: window.innerHeight,
@@ -20,6 +22,27 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
   });
   useEffect(()=>{}, [componentDefault]);
   useEffect(()=>{}, [pageSettingDefault]);
+
+  const handleImportClicked = (e) => {
+     e.preventDefault()
+    if (fileUploadRef.current) {
+      fileUploadRef.current.click()
+    }
+  }
+  const importJsonComponets = async (e) => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onload = async (e) => { 
+        const text = (e.target.result);
+        const json = JSON.parse(text);
+        console.log(json);
+        setComponents(json.components);
+        setPageSettings(json.pageSettings);
+        onUpdated && onUpdated(json.components);
+        onPageSettingUpdated && onPageSettingUpdated(json.pageSettings);
+    }
+    reader.readAsText(file);
+  }
   const exportComponentToJson = async () => {
     setGenerating(true);
     
@@ -233,6 +256,11 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
                         generating ? <CircularProgress/> :
                         <Row>
                         <Button variant="outlined" onClick={exportComponentToJson}>Export As JSON</Button>
+                        <div style={{ width: '1em' }}/>
+                        <Fragment>
+                            <input onChange={importJsonComponets} ref={fileUploadRef} type="file" hidden/>
+                            <Button onClick={handleImportClicked} variant="outlined"> Import JSON</Button>
+                        </Fragment>
                     </Row>}
                 </CardContent>
             </Card>
