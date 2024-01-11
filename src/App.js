@@ -1,24 +1,73 @@
 import logo from './logo.svg';
 import './App.css';
+import { Button, Card, CardContent, CircularProgress, Container, Grid, InputBase, Paper, TextField, Typography } from '@mui/material';
+import { useEffect, useState } from 'react';
+import Row from './components/Row';
+import Column from './components/Column';
+import PDFBuilderPanel from './pdf_builder_panel';
+import PDFBuilderView from './pdf_builder_view';
+import { PDFJSONParser } from './pdf-json-parser';
+import jsonfile from './pdf-components(1_11_2024, 12_15_02 PM)';
 
 function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+  const [loading, setLoading] = useState(true)
+  const [components, setComponents] = useState([])
+  const [pageSetting, setPageSetting] = useState()
+  useEffect(()=>{
+    PDFJSONParser(jsonfile,{businessName:"DearfxchTV",items: [
+      {
+        colId: "ITEM",
+        cellValues: [{text: "ITEM", cellWidth: 800, bold: true, font: "Helvetica"}, "QTY", "PRICE","AMOUNT"],
+        cellWidth: 100,
+      },
+      {
+        colId: "ITEM2",
+        cellValues: ["Item 1", "Item 2", "Item 3"],
+        cellWidth: 100,
+      },
+    ]}).then((result)=>{
+    console.log(result);
+    setComponents(result.components)
+    setPageSetting(result.pageSettings)
+    setLoading(false)
+  }).catch((error)=>{
+    console.log(error)
+    setLoading(false)
+  })
+  },[])
+  
+  const _buildLeftSide = ()=>{
+    return <PDFBuilderPanel 
+    pageSetting={pageSetting}
+    components={components}
+    onPageSettingUpdated={
+      (pageSetting)=>{
+        setPageSetting(pageSetting)
+      }
+    }
+    onUpdated = {
+      (components)=>{
+        setComponents(components)
+      }
+    }/>
+  }
+  const _buildRightSide = ()=>{
+    return <div style={{height: "100vh", width:"100%"}}>
+      <PDFBuilderView components={components} pageSetting = {pageSetting}/>
     </div>
+  }
+  return (
+    <Column alignment="centered" style={{height: "100vh", alignItems: "center"}}>
+      {loading  ? <Column style={{width:"100%", height:"100%", alignItems: "center"}}><CircularProgress/></Column> :
+        <Grid container>
+      <Grid item xs={4}>
+        {_buildLeftSide()}
+      </Grid>
+      <Grid  item xs={8}>
+        {_buildRightSide()}
+      </Grid>
+    </Grid>}
+    </Column>
   );
 }
 

@@ -1,0 +1,429 @@
+{
+    "pageSettings": {
+        "width": 1394,
+        "height": 803,
+        "padding": 0
+    },
+    "components": [
+        {
+            "id": "IMPhcpJSm",
+            "type": "text",
+            "data": {
+                "text": "$businessName",
+                "x": 60,
+                "id": "IMPhcpJSm",
+                "font": "Courier-Bold",
+                "size": 15,
+                "color": "#000000",
+                "y": 60
+            }
+        },
+        {
+            "id": "rewgMNXXe",
+            "type": "text",
+            "data": {
+                "text": "$address",
+                "x": 60,
+                "id": "rewgMNXXe",
+                "font": "Courier",
+                "size": 13,
+                "color": "#000000",
+                "y": 80
+            }
+        },
+        {
+            "id": "UUFRJ3Hj6",
+            "type": "text",
+            "data": {
+                "text": "$zipcode",
+                "x": 60,
+                "id": "UUFRJ3Hj6",
+                "font": "Courier",
+                "size": 12,
+                "color": "#000000",
+                "y": 100
+            }
+        },
+        {
+            "id": "-wE4tN2Ic",
+            "type": "text",
+            "data": {
+                "text": "$inoviceNumber",
+                "x": 1210,
+                "id": "-wE4tN2Ic",
+                "font": "Courier-Bold",
+                "size": 12,
+                "color": "#000000",
+                "y": 60
+            }
+        },
+        {
+            "id": "xswKX1esn",
+            "type": "text",
+            "data": {
+                "text": "Issue date",
+                "x": 1210,
+                "id": "xswKX1esn",
+                "font": "Courier-Bold",
+                "size": 12,
+                "color": "#000000",
+                "y": 80
+            }
+        },
+        {
+            "id": "5VytFDhNd",
+            "type": "line",
+            "data": {
+                "y": 130,
+                "id": "5VytFDhNd",
+                "strokeThickness": 5,
+                "opacity": 1,
+                "length": 1250,
+                "x": 60,
+                "color": "#607d8b"
+            }
+        },
+        {
+            "id": "rQI5z-b44",
+            "type": "text",
+            "data": {
+                "text": "$businessName",
+                "x": 60,
+                "id": "rQI5z-b44",
+                "font": "Courier-Bold",
+                "size": 30,
+                "color": "#000000",
+                "y": 180
+            }
+        },
+        {
+            "id": "z_7sZnTjf",
+            "type": "text",
+            "data": {
+                "text": "$issueDate",
+                "x": 1210,
+                "id": "z_7sZnTjf",
+                "font": "Courier",
+                "size": 12,
+                "color": "#000000",
+                "y": 100
+            }
+        },
+        {
+            "id": "yDPr9X70H",
+            "type": "text",
+            "data": {
+                "text": "$message",
+                "x": 60,
+                "id": "yDPr9X70H",
+                "font": "Courier",
+                "size": 12,
+                "color": "#000000",
+                "y": 210
+            }
+        },
+        {
+            "id": "pbM02janr",
+            "type": "line",
+            "data": {
+                "y": 300,
+                "id": "pbM02janr",
+                "strokeThickness": 2,
+                "opacity": 0.2,
+                "length": 400,
+                "x": 60,
+                "color": "#000000"
+            }
+        },
+        {
+            "id": "PMJcj0HXZ",
+            "type": "line",
+            "data": {
+                "y": 300,
+                "id": "PMJcj0HXZ",
+                "strokeThickness": 2,
+                "opacity": 0.2,
+                "length": 400,
+                "x": 480,
+                "color": "#000000"
+            }
+        },
+        {
+            "id": "TCagMsw7j",
+            "type": "line",
+            "data": {
+                "y": 300,
+                "id": "TCagMsw7j",
+                "strokeThickness": 2,
+                "opacity": 0.2,
+                "length": 400,
+                "x": 900,
+                "color": "#000000"
+            }
+        },
+        {
+            "id": "beHGSoOk1",
+            "type": "text",
+            "data": {
+                "text": "BILL TO",
+                "x": 60,
+                "id": "beHGSoOk1",
+                "font": "Courier-Bold",
+                "size": 17,
+                "color": "#000000",
+                "y": 350
+            }
+        },
+        {
+            "id": "SDRctWsaf",
+            "type": "text",
+            "data": {
+                "text": "$customerName",
+                "x": 60,
+                "id": "SDRctWsaf",
+                "font": "Courier",
+                "size": 12,
+                "color": "#000000",
+                "y": 370
+            }
+        },
+        {
+            "id": "UlyTsNBm6",
+            "type": "text",
+            "data": {
+                "text": "$customerEmail",
+                "x": 60,
+                "id": "UlyTsNBm6",
+                "font": "Courier",
+                "size": 12,
+                "color": "#000000",
+                "y": 390
+            }
+        },
+        {
+            "id": "p4lGahfLl",
+            "type": "text",
+            "data": {
+                "text": "$customerPhone",
+                "x": 60,
+                "id": "p4lGahfLl",
+                "font": "Courier",
+                "size": 12,
+                "color": "#000000",
+                "y": 410
+            }
+        },
+        {
+            "id": "SPya48IGz",
+            "type": "text",
+            "data": {
+                "text": "$customerAddress",
+                "x": 60,
+                "id": "SPya48IGz",
+                "font": "Courier",
+                "size": 12,
+                "color": "#000000",
+                "y": 430
+            }
+        },
+        {
+            "id": "V31_NiJOE",
+            "type": "text",
+            "data": {
+                "text": "DETAILS",
+                "x": 480,
+                "id": "V31_NiJOE",
+                "font": "Courier-Bold",
+                "size": 17,
+                "color": "#000000",
+                "y": 350
+            }
+        },
+        {
+            "id": "Zxo6NZDiI",
+            "type": "text",
+            "data": {
+                "text": "$invoiceDescription",
+                "x": 480,
+                "id": "Zxo6NZDiI",
+                "font": "Courier",
+                "size": 12,
+                "color": "#000000",
+                "y": 370
+            }
+        },
+        {
+            "id": "QcI8cXL-z",
+            "type": "text",
+            "data": {
+                "text": "PAYMENT",
+                "x": 900,
+                "id": "QcI8cXL-z",
+                "font": "Courier-Bold",
+                "size": 17,
+                "color": "#000000",
+                "y": 350
+            }
+        },
+        {
+            "id": "shHyuD7KH",
+            "type": "text",
+            "data": {
+                "text": "Due date",
+                "x": 900,
+                "id": "shHyuD7KH",
+                "font": "Courier-Bold",
+                "size": 12,
+                "color": "#000000",
+                "y": 370
+            }
+        },
+        {
+            "id": "cLhm3A-IG",
+            "type": "text",
+            "data": {
+                "text": "$paymentDueDate",
+                "x": 900,
+                "id": "cLhm3A-IG",
+                "font": "Courier",
+                "size": 12,
+                "color": "#000000",
+                "y": 390
+            }
+        },
+        {
+            "id": "XnZRJA7Gl",
+            "type": "text",
+            "data": {
+                "text": "Amount",
+                "x": 900,
+                "id": "XnZRJA7Gl",
+                "font": "Courier-Bold",
+                "size": 12,
+                "color": "#000000",
+                "y": 410
+            }
+        },
+        {
+            "id": "SzDZ1GsPL",
+            "type": "text",
+            "data": {
+                "text": "$totalAmount",
+                "x": 900,
+                "id": "SzDZ1GsPL",
+                "font": "Courier-Bold",
+                "size": 12,
+                "color": "#000000",
+                "y": 430
+            }
+        },
+        {
+            "id": "PFlQhjR9E",
+            "type": "table",
+            "data": {
+                "y": 550,
+                "id": "PFlQhjR9E",
+                "text": "",
+                "x": 60,
+                "table": {
+                    "cellWidth": 100,
+                    "cellHeight": 32,
+                    "grid": [
+                        [
+                            {
+                                "text": "ITEM",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "00"
+                            },
+                            {
+                                "text": "",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "01"
+                            },
+                            {
+                                "text": "",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "02"
+                            },
+                            {
+                                "text": "",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "03"
+                            },
+                            {
+                                "text": "",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "04"
+                            },
+                            {
+                                "text": "",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "05"
+                            },
+                            {
+                                "text": "",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "06"
+                            },
+                            {
+                                "text": "",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "07"
+                            },
+                            {
+                                "text": "",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "08"
+                            },
+                            {
+                                "text": "QTY",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "09"
+                            },
+                            {
+                                "text": "PRICE",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "010"
+                            },
+                            {
+                                "text": "AMOUNT",
+                                "font": "",
+                                "size": 12,
+                                "color": "#000000",
+                                "id": "011"
+                            }
+                        ]
+                    ],
+                    "borderWidth": 1,
+                    "borderColor": "#000000",
+                    "tableMargin": 5
+                },
+                "font": "Courier-Bold",
+                "size": 12,
+                "color": "#000000"
+            }
+        }
+    ]
+}
