@@ -15,7 +15,7 @@ const ImageComponent = ({data,id, onDelete, onChange}) => {
       setAnchorEl(null);
     };
     
-    console.log("DATA: ", data?.id);
+    
     const [image, setImage] = useState(data);
     return <Row style={{flexWrap : "wrap"}}>
         <Row alignment="left" style={{width:"100%"}}>
@@ -50,7 +50,7 @@ const ImageComponent = ({data,id, onDelete, onChange}) => {
                 onChange(newImage);
             }}
             value={image.x}
-            defaultValue={image.x} label="x Position" variant="outlined" size="small" />
+             label="x Position" variant="outlined" size="small" />
             <div style={{ width: '1em' }}/>
             <TextField type="number"
             onChange={(e)=>{
@@ -59,18 +59,18 @@ const ImageComponent = ({data,id, onDelete, onChange}) => {
                 onChange(newImage);
             }}
             value={image.y}
-            defaultValue={image.y} label="y Position" variant="outlined" size="small" />
+             label="y Position" variant="outlined" size="small" />
         </Row>
         <Row style={{margin:'1em'}}>
             <TextField type="number"
             onChange={(e)=>{
                 const newImage = {...image, width: Number(e.target.value)};
-                console.log("NEW IMAGE: ", newImage);
+                
                 setImage(newImage);
                 onChange(newImage);
             }}
             value={image.width}
-            defaultValue={image.width} label="Width" variant="outlined" size="small" />
+             label="Width" variant="outlined" size="small" />
             <div style={{ width: '1em' }}/>
             <TextField type="number"
             onChange={(e)=>{
@@ -79,7 +79,7 @@ const ImageComponent = ({data,id, onDelete, onChange}) => {
                 onChange(newImage);
             }}
             value={image.height}
-            defaultValue={image.height} label="height" variant="outlined" size="small" />
+             label="height" variant="outlined" size="small" />
         </Row>
        
     </Row>

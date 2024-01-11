@@ -33,7 +33,7 @@ const LineComponent = ({data, id, onDelete, onChange}) => {
                 onChange(newText);
             }}
             value={line.strokeThickness}
-            defaultValue={line.strokeThickness} label="Thickness" variant="outlined" size="small" />
+             label="Thickness" variant="outlined" size="small" />
             <div style={{ width: '1em' }}/>
             <TextField type="number"
             onChange={(e)=>{
@@ -42,7 +42,7 @@ const LineComponent = ({data, id, onDelete, onChange}) => {
                 onChange(newText);
             }}
             value={line.length}
-            defaultValue={line.length} label="Length" variant="outlined" size="small" />
+             label="Length" variant="outlined" size="small" />
         </Row>
         <div style={{ width: '1em' }}/>
         <Column style={{width:"100%", padding: 20}}>
@@ -50,7 +50,7 @@ const LineComponent = ({data, id, onDelete, onChange}) => {
             <div style={{ width: '0.2em' }}/>
             <Slider 
             min={0} max={1} step={0.1}
-            defaultValue={line.opacity} value={line.opacity} onChange={(e, v)=>{
+             onChange={(e, v)=>{
                     const newText = {...line, opacity: v};
                     setLine(newText);
                     onChange(newText);
@@ -65,7 +65,7 @@ const LineComponent = ({data, id, onDelete, onChange}) => {
                 onChange(newText);
             }}
             value={line.x}
-            defaultValue={line.x} label="x Position" variant="outlined" size="small" />
+             label="x Position" variant="outlined" size="small" />
             <div style={{ width: '1em' }}/>
             <TextField type="number"
             onChange={(e)=>{
@@ -74,7 +74,7 @@ const LineComponent = ({data, id, onDelete, onChange}) => {
                 onChange(newText);
             }}
             value={line.y}
-            defaultValue={line.y} label="y Position" variant="outlined" size="small" />
+             label="y Position" variant="outlined" size="small" />
         </Row>
         <TextField
             id="demo-positioned-button"
@@ -128,7 +128,7 @@ const LineComponent = ({data, id, onDelete, onChange}) => {
         <CardContent>
         <CirclePicker onChange={
             (color)=>{
-                console.log(color);
+                
                 const newText = {...line, color: color.hex};
                 setLine(newText);
                 onChange(newText);

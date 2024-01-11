@@ -4,6 +4,7 @@ import TableField from "./TableField";
 import Row from "./Row";
 import Column from "./Column";
 import { Add, Delete } from "@mui/icons-material";
+import shortid from "shortid";
 const Table = ({ table, onDataChange,cellWidth, cellHeight, borderColor }) => {
   const [tableData, setTableData] = useState(table??[]);
   const stringifyTable = JSON.stringify(tableData);
@@ -95,7 +96,7 @@ const Table = ({ table, onDataChange,cellWidth, cellHeight, borderColor }) => {
     return (
       <Row>
         <IconButton
-        key={`btn-${rowIndex}`}
+        key={`btn-${rowIndex}-1`}
         onClick={() => {
           handleAddingcolumnToRow(rowIndex);
         }}
@@ -127,7 +128,7 @@ const Table = ({ table, onDataChange,cellWidth, cellHeight, borderColor }) => {
   };
   const _buildRow = (row) => {
     return (
-      <Grid container>
+      <Grid key={shortid.generate()} container>
         {row.map((child, index) => {
           return (
             <Column key={"row-" + index} id={index}>
@@ -166,14 +167,14 @@ const Table = ({ table, onDataChange,cellWidth, cellHeight, borderColor }) => {
     return grid;
   };
   return (
-    <Grid container>
-      <Grid xs={12} container>
+    <Grid key={shortid.generate()} container>
+     <Row>
         <Button size="small" startIcon={<Add/>} onClick={handleAddNewRow}>Row</Button>
         <Button size="small" startIcon={<Add/>} onClick={handleAddNewColumn}>Col</Button>
         <Button size="small" startIcon={<Delete/>} color="error" onClick={handleRemoveRecentRow}>Row</Button>
         <Button size="small" startIcon={<Delete/>} color="error" onClick={handleRemoveRecentColumn}>Col</Button>
-      </Grid>
-      <Grid xs={12}>{_buildGrid()}</Grid>
+    </Row>
+      <Grid key={shortid.generate()}  xs={12}>{_buildGrid()}</Grid>
     </Grid>
   );
 };

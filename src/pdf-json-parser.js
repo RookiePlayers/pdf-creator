@@ -2,7 +2,6 @@ import { StandardFonts } from "pdf-lib";
 import shortid from "shortid";
 
 export const PDFJSONParser = async (jsonFilePath, params) => {
-    console.log("jsonFileUrl",jsonFilePath)
     //retrieve json from jsonFilePath
     let json = jsonFilePath;
     if(typeof jsonFilePath === "string" && jsonFilePath.startsWith("http")){
@@ -14,18 +13,18 @@ export const PDFJSONParser = async (jsonFilePath, params) => {
   
     // Scan components for any value that starts with $ and replace it with the value from params
     const replacedComponents = _replaceParamsInComponents(components, params);
-    const populateTables = _populateTables(replacedComponents,params);
+    _populateTables(replacedComponents,params);
     return { pageSettings, components: replacedComponents };
   };
   function _populateTables(components,params) {
     let tableParams = [];
     for(let key in params){
         if(Array.isArray(params[key])){
-            console.log("params[key]",params[key]);
+            
             if(params[key].length > 0 && typeof params[key][0]?.["colId"])
             {
                 for(let newKey of params[key]){
-                    console.log("newKey",newKey);
+                    
                     tableParams[`${newKey?.['colId']?.toLowerCase()}`] = newKey;
                 }
             }else{
@@ -34,7 +33,7 @@ export const PDFJSONParser = async (jsonFilePath, params) => {
         }
     }
 
-    console.log("tableParams",tableParams);
+    
    
     const tableData = [];
     const grids = components.filter((component)=>component.type === "table");
@@ -43,7 +42,6 @@ export const PDFJSONParser = async (jsonFilePath, params) => {
         for(let key in tableParams){
             const cellValues = tableParams[key].cellValues;
             const cellWidth = tableParams[key].cellWidth;
-            const colId = tableParams[key].colId;
             const newRow = [];
             for(let i = 0; i < cellValues.length; i++){
                 let text = cellValues[i];
@@ -132,7 +130,6 @@ function findTallestComponent(components) {
           if (match) {
             const paramKey = match[1].toLowerCase();
             const replacement = params[paramKey];
-            console.log("replacement",replacement, params, paramKey)
             if (replacement !== undefined) {
               obj[key] = replacement;
             }

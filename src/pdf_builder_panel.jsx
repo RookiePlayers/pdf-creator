@@ -1,11 +1,9 @@
-import { Button, Card, CardContent, CircularProgress, Container, FormControl, FormControlLabel, Grid, IconButton, InputLabel, Menu, MenuItem, Popper, Select, Table, TextField, Typography } from "@mui/material"
-import Column from "./components/Column"
-import Row from "./components/Row"
+import { Button, Card, CardContent, CircularProgress, Container, Grid, TextField, Typography } from "@mui/material";
+import Column from "./components/Column";
+import Row from "./components/Row";
 import { useEffect, useState } from "react";
 import { StandardFonts } from "pdf-lib";
-import { Close, ColorLens } from "@mui/icons-material";
 import shortid from "shortid";
-import { CirclePicker, SketchPicker } from "react-color";
 import TextComponent from "./components/text_component";
 import TableComponent from "./components/table_component";
 import ImageComponent from "./components/image_component";
@@ -13,7 +11,6 @@ import LineComponent from "./components/line_component";
 
 
 const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: componentDefault, onUpdated,onPageSettingUpdated}) => {
-  const [pdfFile, setPdfFile] = useState(null);
   const [components, setComponents] = useState(componentDefault??[]);
   const [generating, setGenerating] = useState(false);
   const [pageSettings, setPageSettings] = useState(pageSettingDefault??{
@@ -25,12 +22,12 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
   useEffect(()=>{}, [pageSettingDefault]);
   const exportComponentToJson = async () => {
     setGenerating(true);
-    console.log("EXPORTING: ", components);
+    
     const pdfJson = {
         pageSettings,
         components: components
     }
-    console.log("PDF JSON: ", pdfJson,JSON.stringify(pdfJson));
+    
     const json = JSON.stringify(pdfJson);
     const blob = new Blob([json],{type:'application/json'});
     const href =  URL.createObjectURL(blob);
@@ -253,13 +250,13 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
                     setPageSettings(newPageSettings);
                     onPageSettingUpdated && onPageSettingUpdated(newPageSettings);
                 }}
-                defaultValue={pageSettings.width} variant="outlined" size="small" />
+               variant="outlined" size="small" />
                 <div style={{ width: '1em' }}/>
                 <TextField label="Height"  type="number"  onChange={(e)=>{
                     const newPageSettings = {...pageSettings, height: Number(e.target.value)};
                     setPageSettings(newPageSettings);
                     onPageSettingUpdated && onPageSettingUpdated(newPageSettings);
-                }} defaultValue={pageSettings.height} variant="outlined" size="small" />
+                }} variant="outlined" size="small" />
               </Row>
               <div style={{ height: '1em' }}/>
               <Row>
@@ -267,7 +264,7 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
                     const newPageSettings = {...pageSettings, padding: Number(e.target.value)};
                     setPageSettings(newPageSettings);
                     onPageSettingUpdated && onPageSettingUpdated(newPageSettings);
-                }} defaultValue={pageSettings.padding} variant="outlined" size="small" />
+                }}  variant="outlined" size="small" />
               </Row>
             </Column>
            </CardContent>

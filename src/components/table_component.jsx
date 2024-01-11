@@ -1,7 +1,6 @@
-import { Card, CardContent, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, TextField } from "@mui/material"
-import Row from "./Row"
+import { Card, CardContent, IconButton, Menu, TextField } from "@mui/material";
+import Row from "./Row";
 import { useState } from "react";
-import { StandardFonts } from "pdf-lib";
 import { Close, ColorLens } from "@mui/icons-material";
 import { CirclePicker } from "react-color";
 import Table from "./table";
@@ -31,12 +30,7 @@ const TableComponent = ({data,id, onDelete, onChange}) => {
         } />
      }
     const [table, setTable] = useState(data);
-    console.log("TABLE: ", table);
-    const handleChange = (event) => {
-        const newText = {...table, font: event.target.value};
-        setTable(newText);
-        onChange(newText);
-      };
+
     return <Row style={{flexWrap : "wrap"}}>
         <Row alignment="left" style={{width:"100%"}}>
             <IconButton size="small" onClick={()=>{
@@ -53,7 +47,7 @@ const TableComponent = ({data,id, onDelete, onChange}) => {
                 onChange(newText);
             }}
             value={table.x}
-            defaultValue={table.x} label="x Position" variant="outlined" size="small" />
+             label="x Position" variant="outlined" size="small" />
             <div style={{ width: '1em' }}/>
             <TextField type="number"
             onChange={(e)=>{
@@ -62,7 +56,7 @@ const TableComponent = ({data,id, onDelete, onChange}) => {
                 onChange(newText);
             }}
             value={table.y}
-            defaultValue={table.y} label="y Position" variant="outlined" size="small" />
+             label="y Position" variant="outlined" size="small" />
         </Row>
         <Row style={{margin:'1em'}}>
             <TextField type="number"
@@ -72,7 +66,7 @@ const TableComponent = ({data,id, onDelete, onChange}) => {
                 onChange(table);
             }}
             value={table.table.cellWidth}
-            defaultValue={table.table.cellWidth} label="Cell Width" variant="outlined" size="small" />
+             label="Cell Width" variant="outlined" size="small" />
             <div style={{ width: '1em' }}/>
             <TextField type="number"
             onChange={(e)=>{
@@ -81,7 +75,7 @@ const TableComponent = ({data,id, onDelete, onChange}) => {
                 onChange(table);
             }}
             value={table.table.cellHeight}
-            defaultValue={table.table.cellHeight} label="Cell Height" variant="outlined" size="small" />
+             label="Cell Height" variant="outlined" size="small" />
         </Row>
         <div style={{ width: '1em' }}/>
              
@@ -136,7 +130,7 @@ const TableComponent = ({data,id, onDelete, onChange}) => {
         <CardContent>
         <CirclePicker onChange={
             (color)=>{
-                console.log(color);
+                
                 table.table.borderColor = color.hex;
                 setTable({...table});
                 onChange(table);

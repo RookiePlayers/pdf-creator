@@ -107,6 +107,6 @@ export async function createInvoice() {
   //fs.writeFile("invoice.pdf", pdfBytes);
   const pdfBlob = new Blob([pdfBytes], { type: "application/pdf" });
   const pdfUrl = URL.createObjectURL(pdfBlob);
-  console.log(pdfUrl);
+  
   window.open(pdfUrl, "_blank");
 }

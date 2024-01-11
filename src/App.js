@@ -1,8 +1,6 @@
-import logo from './logo.svg';
 import './App.css';
-import { Button, Card, CardContent, CircularProgress, Container, Grid, InputBase, Paper, TextField, Typography } from '@mui/material';
+import { CircularProgress, Grid } from '@mui/material';
 import { useEffect, useState } from 'react';
-import Row from './components/Row';
 import Column from './components/Column';
 import PDFBuilderPanel from './pdf_builder_panel';
 import PDFBuilderView from './pdf_builder_view';
@@ -14,7 +12,10 @@ function App() {
   const [components, setComponents] = useState([])
   const [pageSetting, setPageSetting] = useState()
   useEffect(()=>{
-    PDFJSONParser(jsonfile,{businessName:"DearfxchTV",items: [
+    PDFJSONParser(jsonfile,
+      {
+        businessName:"DearfxchTV",
+        items: [
       {
         colId: "ITEM",
         cellValues: [{text: "ITEM", cellWidth: 800, bold: true, font: "Helvetica"}, "QTY", "PRICE","AMOUNT"],
@@ -26,7 +27,7 @@ function App() {
         cellWidth: 100,
       },
     ]}).then((result)=>{
-    console.log(result);
+    
     setComponents(result.components)
     setPageSetting(result.pageSettings)
     setLoading(false)

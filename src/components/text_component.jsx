@@ -28,6 +28,7 @@ const TextComponent = ({data, id, onDelete, onChange}) => {
                 <Close/>
             </IconButton>
         </Row>
+        <div style={{ width: '1em',height: '1em' }}/>
         <TextField 
         onChange={(e)=>{
             const newText = {...text, text: (e.target.value)};
@@ -35,8 +36,8 @@ const TextComponent = ({data, id, onDelete, onChange}) => {
             onChange(newText);
         }}
         value={text.text}
-        defaultValue={text.text} style={{margin:'1em'}} fullWidth label="Text" variant="outlined" size="small" />
-        <div style={{ width: '1em' }}/>
+         fullWidth label="Text" variant="outlined" size="small" />
+        <div style={{ width: '1em',height: '1em' }}/>
         <TextField type="number"
         onChange={(e)=>{
             const newText = {...text, size: Number(e.target.value)};
@@ -44,7 +45,7 @@ const TextComponent = ({data, id, onDelete, onChange}) => {
             onChange(newText);
         }}
         value={text.size}
-        defaultValue={text.size} style={{margin:'1em'}} fullWidth label="Text" variant="outlined" size="small" />
+         fullWidth label="Fontsize" variant="outlined" size="small" />
         <div style={{ width: '1em' }}/>
         <Row style={{margin:'1em'}}>
             <TextField type="number"
@@ -54,7 +55,7 @@ const TextComponent = ({data, id, onDelete, onChange}) => {
                 onChange(newText);
             }}
             value={text.x}
-            defaultValue={text.x} label="x Position" variant="outlined" size="small" />
+             label="x Position" variant="outlined" size="small" />
             <div style={{ width: '1em' }}/>
             <TextField type="number"
             onChange={(e)=>{
@@ -63,7 +64,7 @@ const TextComponent = ({data, id, onDelete, onChange}) => {
                 onChange(newText);
             }}
             value={text.y}
-            defaultValue={text.y} label="y Position" variant="outlined" size="small" />
+             label="y Position" variant="outlined" size="small" />
         </Row>
         <FormControl style={{margin:'1em'}} fullWidth>
         <InputLabel defaultValue={text.text} id="demo-simple-select-label">Font</InputLabel>
@@ -131,7 +132,7 @@ const TextComponent = ({data, id, onDelete, onChange}) => {
         <CardContent>
         <CirclePicker onChange={
             (color)=>{
-                console.log(color);
+                
                 const newText = {...text, color: color.hex};
                 setText(newText);
                 onChange(newText);

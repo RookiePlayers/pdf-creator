@@ -3,19 +3,6 @@ import { useEffect, useState } from "react";
 import Column from "./components/Column";
 import { CircularProgress } from "@mui/material";
 
-const convertHexToRGB = (hex)=>{
-        if(!hex) return [0,0,0];
-        if(hex.length === 4){
-            const r = parseInt(hex.slice(1,2), 16);
-            const g = parseInt(hex.slice(2,3), 16);
-            const b = parseInt(hex.slice(3,4), 16);
-            return [r, g, b];
-        }
-        const r = parseInt(hex.slice(1,3), 16);
-        const g = parseInt(hex.slice(3,5), 16);
-        const b = parseInt(hex.slice(5,7), 16);
-        return [r, g, b];
-}
 const convertHexToColorPercentage = (hex)=>{
         if(!hex) return [0,0,0];
         if(hex.length === 4){
@@ -72,7 +59,7 @@ const drawGrid =  (grid, page, x, y, cellWidth, cellHeight, borderWidth, tableMa
             const font = convertStringToFont(cell.font);
             const cw = Number(cell.cellWidth ?? cellWidth);
             const sx = cx + x;
-            //console.log("DRAWING CELL: ", text,cw,cx, x + j * cw, y - i * cellHeight);
+            //
             drawCell(
               page,
               text,
@@ -93,14 +80,14 @@ const drawGrid =  (grid, page, x, y, cellWidth, cellHeight, borderWidth, tableMa
         }
       
     } 
-    const createPDF = async ({components,pageSetting})=>{
+  export const createPDF = async ({components,pageSetting})=>{
         
         const pdf = await PDFDocument.create();
         const page = pdf.addPage([(Number(pageSetting?.width??600)), (Number(pageSetting?.height??600))]);
-        const {width, height} = page.getSize();
+        const {height} = page.getSize();
         for(const component of components){
             if(!component.data?.id) continue;
-            console.log("COMPONENT: ", component.type);
+            
             switch(component.type){
                 case "line":
                     const start = {x: Number((component.data.x??10)+(pageSetting?.padding??0)), y: height - Number((component.data.y??20)+(pageSetting?.padding??0))};
@@ -178,19 +165,20 @@ const PDFBuilderView = ({components, pageSetting})=>{
     const pageSettingStrinfify = JSON.stringify(pageSetting);
     useEffect(()=>{
         if(componentStrinfify && pageSettingStrinfify){
-            console.log("creating pdf", components.length);
+            
             setLoading(true);
             createPDF({
                 components,
                 pageSetting
             }).then((pdf)=>{
-                console.log("CREATED PDF");
+                
                 setLoading(false);
                 setPdfUrl(pdf.pdfUrl);
             }).catch((e)=>{
-                console.log("ERROR: ", e);
+                
             });
         }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
     }, [componentStrinfify, pageSettingStrinfify]);
   
     

@@ -133,7 +133,7 @@ const TableField = ({ data, onDataChange }) => {
                   <CardContent>
                     <CirclePicker
                       onChange={(color) => {
-                        console.log(color);
+                        
                         tableData.color = color.hex;
                         onDataChange(tableData);
                         setTableData({ ...tableData });
