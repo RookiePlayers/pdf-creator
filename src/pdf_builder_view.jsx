@@ -111,7 +111,21 @@ const drawGrid =  (grid, page, x, y, cellWidth, cellHeight, borderWidth, tableMa
                     const imageHeight = Number(component.data.height);
                     let imageArrayBuffer;
                     if(typeof component.data.image === "string"){
-                        const response = await fetch(component.data.image);
+                         let response;
+                        try{
+                            response = await fetch(component.data.image, {mode: "cors", 
+                            credentials: 'same-origin',
+                            headers: {
+                            'Access-Control-Allow-Origin': '*',
+                            'Access-Control-Allow-Credentials':true,
+                            'Content-Type': ['image/jpeg', 'image/png', 'image/gif', 'image/webp']
+
+                         }});
+                        }catch(e){
+                            console.warn(e);
+                        }
+                        
+                        if(!response)break;
                         imageArrayBuffer = await response.arrayBuffer();
                     }
                     else{

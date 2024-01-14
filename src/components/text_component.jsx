@@ -1,7 +1,7 @@
 import { Card, CardContent, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, TextField } from "@mui/material"
 import Row from "./Row"
 import { useState } from "react";
-import { StandardFonts } from "pdf-lib";
+import { StandardFonts } from "ruki-react-pdf-creator";
 import { Close, ColorLens } from "@mui/icons-material";
 import { CirclePicker } from "react-color";
 

@@ -1,14 +1,16 @@
-import { Button, Card, CardContent, CircularProgress, Container, Grid, TextField, Typography } from "@mui/material";
+import { Accordion, AccordionDetails, AccordionSummary, Button, Card, CardContent, Chip, CircularProgress, Container, Grid, Icon, TextField, Typography } from "@mui/material";
 import Column from "./components/Column";
 import Row from "./components/Row";
 import { Fragment, useEffect, useRef, useState } from "react";
-import { StandardFonts } from "pdf-lib";
 import shortid from "shortid";
 import TextComponent from "./components/text_component";
 import TableComponent from "./components/table_component";
 import ImageComponent from "./components/image_component";
 import LineComponent from "./components/line_component";
-
+import { debounce } from 'lodash';
+import { ExpandMore, GridOn, Image } from "@mui/icons-material";
+import { _arrayBufferToBase64 } from "./utils";
+import { PDFJSONParser, StandardFonts } from "ruki-react-pdf-creator";
 
 const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: componentDefault, onUpdated,onPageSettingUpdated}) => {
   const [components, setComponents] = useState(componentDefault??[]);
@@ -29,6 +31,20 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
       fileUploadRef.current.click()
     }
   }
+  // Helper functions
+    const handleComponentUpdate = (updateFunction) => {
+        const newComponent = updateFunction([...components]);
+        setComponents(newComponent);
+        onUpdated && onUpdated(newComponent);
+    };
+    
+    const updateComponentData = (componentsArray, componentId, newData) => {
+        const index = componentsArray.findIndex((c) => c.id === componentId);
+        if (index !== -1) {
+        componentsArray[index].data = newData;
+        }
+        return componentsArray;
+    };
   const importJsonComponets = async (e) => {
     const file = e.target.files[0];
     const reader = new FileReader();
@@ -36,8 +52,11 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
         const text = (e.target.result);
         const json = JSON.parse(text);
         console.log(json);
-        setComponents(json.components);
-        setPageSettings(json.pageSettings);
+        const result = await PDFJSONParser(json,{
+            logo:"http://www.photo-paysage.com/albums/Paysages/Lac-riviere-cascade/paradis-lac-cascade-plitvice.jpg"
+        })
+        setComponents(result.components);
+        setPageSettings(result.pageSettings);
         onUpdated && onUpdated(json.components);
         onPageSettingUpdated && onPageSettingUpdated(json.pageSettings);
     }
@@ -45,12 +64,23 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
   }
   const exportComponentToJson = async () => {
     setGenerating(true);
-    
     const pdfJson = {
         pageSettings,
         components: components
     }
-    
+    //change images to base64
+    for(let i = 0; i < pdfJson.components.length; i++){
+        if(pdfJson.components[i].type === "image"){
+            if(pdfJson.components[i].data?.image){
+                if(pdfJson.components[i].data.image instanceof Promise)
+                pdfJson.components[i].data.image = `data:image/png;base64,${_arrayBufferToBase64(await pdfJson.components[i].data.image)}`;
+            }
+        }else if(pdfJson.components[i].type === "text"){
+            if(pdfJson.components[i].data?.text?.startsWith("$")){
+                pdfJson.components[i].data.var = pdfJson.components[i].data.text;
+            }
+        }
+    }
     const json = JSON.stringify(pdfJson);
     const blob = new Blob([json],{type:'application/json'});
     const href =  URL.createObjectURL(blob);
@@ -69,56 +99,16 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
             return <LineComponent
             data = {component.data}
             id={component.id} 
-            onDelete={()=>{
-                setComponents(prevComponents => {
-                    const newComponent = prevComponents.filter((c, i) => c.id !== component.id);
-                    onUpdated && onUpdated(newComponent);
-                    return newComponent;
-                });
-            }} 
-            onChange={(line)=>{
-                const newComponent = {
-                    id: component.id,
-                    type: component.type,
-                    ...components.find((c, i) => {
-                        return c.id === component.id
-                    }),
-                    data: line
-                }
-                const newComponents = components.filter((c, i) => {
-                    return c.id !== component.id
-                })
-                newComponents.push(newComponent);
-                setComponents(newComponents);
-                onUpdated && onUpdated(newComponents);
-            }}/>
+            onDelete={() => handleComponentUpdate((newComponent) => newComponent.filter((c) => c.id !== component.id))}
+            onChange={debounce((data) => handleComponentUpdate((newComponent) => updateComponentData(newComponent, component.id, data)), 300)}
+            />
         case "image":
             return <ImageComponent 
             data = {component.data}
             id={component.id} 
-            onDelete={()=>{
-                const newComponent = components.filter((c, i) => {
-                    return c.id !== component.id
-                })
-                setComponents([...newComponent]);
-                onUpdated && onUpdated(newComponent);
-            }} 
-            onChange={(image)=>{
-                const newComponent = {
-                    id: component.id,
-                    type: component.type,
-                    ...components.find((c, i) => {
-                        return c.id === component.id
-                    }),
-                    data: image
-                }
-                const newComponents = components.filter((c, i) => {
-                    return c.id !== component.id
-                })
-                newComponents.push(newComponent);
-                setComponents(newComponents);
-                onUpdated && onUpdated(newComponents);
-            }}/>
+            onDelete={() => handleComponentUpdate((newComponent) => newComponent.filter((c) => c.id !== component.id))}
+            onChange={debounce((data) => handleComponentUpdate((newComponent) => updateComponentData(newComponent, component.id, data)), 300)}
+            />
 
         case "table":
             return <TableComponent
@@ -126,66 +116,19 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
             id={
                 component.id
             } 
-            onDelete={
-                ()=>{
-                    const newComponent = components.filter((c, i) => {
-                        return c.id !== component.id
-                    })
-                    setComponents([...newComponent]);
-                    onUpdated && onUpdated(newComponent);
-                }
-            }
-            onChange={(table)=>{
-                const newComponent = {
-                    id: component.id,
-                    type: component.type,
-                    ...components.find((c, i) => {
-                        return c.id === component.id
-                    }),
-                    data: table
-                }
-                const newComponents = components.filter((c, i) => {
-                    return c.id !== component.id
-                })
-                newComponents.push(newComponent);
-                setComponents(newComponents);
-                onUpdated && onUpdated(newComponents);
-            }}
-            onDeleted={()=>{
-                const newComponent = components.filter((c, i) => {
-                    return c.id !== component.id
-                })
-                setComponents([...newComponent]);
-                onUpdated && onUpdated(newComponent);
-            }}
+            onDelete={() => handleComponentUpdate((newComponent) => newComponent.filter((c) => c.id !== component.id))}
+            onChange={debounce((data) => handleComponentUpdate((newComponent) => updateComponentData(newComponent, component.id, data)), 300)}
             />
         default: 
             return <TextComponent 
+            id={component.id} 
             data = {component.data}
-            onChange={(text)=>{
-                const newComponent = {
-                    id: component.id,
-                    type: component.type,
-                    ...components.find((c, i) => {
-                        return c.id === component.id
-                    }),
-                    data: text
-                }
-                const newComponents = components.filter((c, i) => {
-                    return c.id !== component.id
-                })
-                newComponents.push(newComponent);
-                setComponents(newComponents);
-                onUpdated && onUpdated(newComponents);
-            }} id={component.id} onDelete={()=>{
-                const newComponent = components.filter((c, i) => {
-                    return c.id !== component.id
-                })
-                setComponents([...newComponent]);
-                onUpdated && onUpdated(newComponent);
-            }}/>
+            onDelete={() => handleComponentUpdate((newComponent) => newComponent.filter((c) => c.id !== component.id))}
+            onChange={debounce((data) => handleComponentUpdate((newComponent) => updateComponentData(newComponent, component.id, data)), 300)}
+            />
     }
   }
+
     const handleAddComponent = (type) => {
         let newComponent = {};
         const id = shortid.generate();
@@ -247,6 +190,57 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
         setComponents(newComponents);
         onUpdated && onUpdated(newComponents);
     }
+   
+    const BuildPreview = ({data}) => {
+        const [preview, setPreview] = useState(null);
+        useEffect(()=>{
+            if(data.type === "image"){
+               if(data.data?.image){
+                if(data.data.image instanceof Promise)
+                {
+                        data.data.image.then((image)=>{
+                        let base64Url = `data:image/png;base64,${_arrayBufferToBase64(image)}`
+                        console.log(base64Url);
+                        setPreview(base64Url);
+                    })
+                }else{
+                    if(typeof data.data.image === "string"){
+                        setPreview(data.data.image);
+                    }
+                }
+               }
+            }
+        },[data.data?.image,data.type])
+        switch(data.type){
+            case "image": return <Row style={{alignItems:'center'}}>
+                <div style={{width: 30, height: 30}}>
+                    {preview ? <img alt={data?.data?.var??""} style={{width: "100%", height: "100%"}} src={preview}/> : 
+                        <Icon><Image/></Icon>
+                    }
+                </div>
+                {data?.data?.var &&<Row>
+                    <Typography style={{marginLeft: 5, fontStyle:"italic"}}>{data?.data?.var}</Typography>
+                    <Chip style={{marginLeft: 5}} size="small" variant="outlined" label={"variable"}/>
+                    </Row>}
+            </Row>
+            case "table": return <Row style={{alignItems:'center'}}>
+                <Icon>
+                    <GridOn/>
+                </Icon>
+                <Typography style={{marginLeft: 5}}>{`${data.data?.table?.grid.length} Rows`}</Typography>
+            </Row>
+            case "line":
+                return <Row>
+                    <div style={{width: 100, height: data.data.strokeThickness, backgroundColor: data.data.color}}/>
+                    </Row>
+
+            default: 
+                return <Row>
+                <Typography style={{fontWeight:data.data?.text?.[0] === "$" ?"normal":"bold", fontStyle: data.data?.text?.[0] === "$" ? "italic" :"normal"}}>{data.data.text}</Typography>
+                {data.data?.text?.[0] === "$" && <Chip style={{marginLeft: 5}} size="small" variant="outlined" label="variable"/>}
+                </Row>
+        }
+    }
     return <Container style={{ padding: '1em', backgroundColor: '#1f2336', height: '100vh', overflowY:"auto", width:'100%'}}>
     <Grid container spacing={1}>
         <Grid item xs={12}>
@@ -300,12 +294,26 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
       </Grid>
       <Grid item xs={12}>
         {
-            components.map((c, i) => {
-                return <Card style={{margin:'1em 0.1em'}} variant='outlined' key={c.id}>
-                <CardContent>
-                    {getJSX(c)}
-                </CardContent>
+            components.sort((a,b)=>a.data.y - b.data.y).map((c, i) => {
+                return <Accordion style={{marginBottom: 10}} key={c.id}>
+                    <AccordionSummary  expandIcon={<ExpandMore />}>
+                        <Row style={{width:"100%", alignItems:"center"}} alignment="space-between">
+                            <BuildPreview data={c}/>
+                            <Chip style={{
+                                backgroundColor: c.type === "text" ? "#8ecae6" : c.type === "table" ? "#ffb703" : c.type === "image" ? "#ffc8dd" : "#8d99ae",
+                                color: "#000000"
+                            
+                            }} size="small" variant="outlined" label={c.type}/>
+                        </Row>
+                    </AccordionSummary>
+                    <AccordionDetails>
+                    <Card style={{margin:'1em 0.1em'}} variant='outlined' >
+                    <CardContent>
+                        {getJSX(c)}
+                    </CardContent>
                 </Card>
+                    </AccordionDetails>
+                </Accordion>
             })
         }
       </Grid>

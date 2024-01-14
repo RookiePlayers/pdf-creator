@@ -1,11 +1,11 @@
-import { Card, CardContent, IconButton, Menu, Slider, TextField, Typography } from "@mui/material";
-import Row from "./Row";
+import { Card, CardContent, FormControl, IconButton, InputLabel, Menu, MenuItem, Select, TextField } from "@mui/material"
+import Row from "./Row"
 import { useState } from "react";
+import { StandardFonts } from "ruki-react-pdf-creator";
 import { Close, ColorLens } from "@mui/icons-material";
 import { CirclePicker } from "react-color";
-import Column from "./Column";
 
-const LineComponent = ({data, id, onDelete, onChange}) => {
+const ButtonComponent = ({data, id, onDelete, onChange}) => {
     const [anchorEl, setAnchorEl] = useState(null);
     const open = Boolean(anchorEl);
     const handleClick = (event) => {
@@ -14,7 +14,12 @@ const LineComponent = ({data, id, onDelete, onChange}) => {
     const handleClose = () => {
       setAnchorEl(null);
     };
-    const [line, setLine] = useState(data);
+    const [text, setText] = useState(data);
+    const handleChange = (event) => {
+        const newText = {...text, font: event.target.value};
+        setText(newText);
+        onChange(newText);
+      };
     return <Row style={{flexWrap : "wrap"}}>
         <Row alignment="left" style={{width:"100%"}}>
             <IconButton size="small" onClick={()=>{
@@ -23,78 +28,78 @@ const LineComponent = ({data, id, onDelete, onChange}) => {
                 <Close/>
             </IconButton>
         </Row>
-        
-        <Row style={{margin:'1em'}}>
-            <TextField type="number"
-            onChange={(e)=>{
-                const newText = {...line, strokeThickness: Number(e.target.value)};
-                setLine(newText);
-                onChange(newText);
-            }}
-            value={line.strokeThickness}
-             label="Thickness" variant="outlined" size="small" />
-            <div style={{ width: '1em' }}/>
-            <TextField type="number"
-            onChange={(e)=>{
-                const newText = {...line, length: Number(e.target.value)};
-                setLine(newText);
-                onChange(newText);
-            }}
-            value={line.length}
-             label="Length" variant="outlined" size="small" />
-        </Row>
-        <div style={{ width: '1em' }}/>
-        <Column style={{width:"100%", padding: 20}}>
-            <Typography>Opacity</Typography>
-            <div style={{ width: '0.2em' }}/>
-            <Slider 
-            min={0} max={1} step={0.1}
-             onChange={(e, v)=>{
-                    const newText = {...line, opacity: v};
-                    setLine(newText);
-                    onChange(newText);
-                }}/>
-        </Column>
+        <div style={{ width: '1em',height: '1em' }}/>
+        <TextField 
+        onChange={(e)=>{
+            const newText = {...text, text: (e.target.value)};
+            setText(newText);
+            onChange(newText);
+        }}
+        value={text.text}
+         fullWidth label="Text" variant="outlined" size="small" />
+        <div style={{ width: '1em',height: '1em' }}/>
+        <TextField type="number"
+        onChange={(e)=>{
+            const newText = {...text, size: Number(e.target.value)};
+            setText(newText);
+            onChange(newText);
+        }}
+        value={text.size}
+         fullWidth label="Fontsize" variant="outlined" size="small" />
         <div style={{ width: '1em' }}/>
         <Row style={{margin:'1em'}}>
             <TextField type="number"
             onChange={(e)=>{
-                const newText = {...line, x: Number(e.target.value)};
-                setLine(newText);
+                const newText = {...text, x: Number(e.target.value)};
+                setText(newText);
                 onChange(newText);
             }}
-            value={line.x}
+            value={text.x}
              label="x Position" variant="outlined" size="small" />
             <div style={{ width: '1em' }}/>
             <TextField type="number"
             onChange={(e)=>{
-                const newText = {...line, y: Number(e.target.value)};
-                setLine(newText);
+                const newText = {...text, y: Number(e.target.value)};
+                setText(newText);
                 onChange(newText);
             }}
-            value={line.y}
+            value={text.y}
              label="y Position" variant="outlined" size="small" />
         </Row>
+        <FormControl style={{margin:'1em'}} fullWidth>
+        <InputLabel defaultValue={text.text} id="demo-simple-select-label">Font</InputLabel>
+        <Select
+            labelId="demo-simple-select-label"
+            id="demo-simple-select"
+            value={text.font}
+            label="Font"
+            onChange={handleChange}
+        >
+            {Object.keys(StandardFonts).map((font, i) => {
+                return <MenuItem key={i} value={StandardFonts[font]}>{font}</MenuItem>
+            })}
+        </Select>
+        </FormControl>
         <TextField
             id="demo-positioned-button"
             aria-controls={open ? 'demo-positioned-menu' : undefined}
             aria-haspopup="true"
             aria-expanded={open ? 'true' : undefined}
             fullWidth
-            value={line.color}
+            value={text.color}
             onChange={(e)=>{
                 if(e.target.value.length !== 7 && e.target.value.length !== 7){
                     return;
                 }
-                const newText = {...line, color: e.target.value};
-                setLine(newText);
+                const newText = {...text, color: e.target.value};
+                setText(newText);
                 onChange(newText);
 
             }}
             style={{margin:'1em'}}
             InputProps={{
             startAdornment:(
-                <div onClick={handleClick} style={{width:'20px',height: 20,cursor: 'pointer', backgroundColor: line.color, borderRadius: 4, marginRight:'6px', border: '1px solid lightgrey'}}/>
+                <div onClick={handleClick} style={{width:'20px',height: 20,cursor: 'pointer', backgroundColor: text.color, borderRadius: 4, marginRight:'6px', border: '1px solid lightgrey'}}/>
             ),
             endAdornment: (
                 <IconButton
@@ -128,8 +133,8 @@ const LineComponent = ({data, id, onDelete, onChange}) => {
         <CirclePicker onChange={
             (color)=>{
                 
-                const newText = {...line, color: color.hex};
-                setLine(newText);
+                const newText = {...text, color: color.hex};
+                setText(newText);
                 onChange(newText);
                 handleClose();
             }
@@ -139,4 +144,4 @@ const LineComponent = ({data, id, onDelete, onChange}) => {
       </Menu>
     </Row>
 }
-export default LineComponent;
+export default ButtonComponent;

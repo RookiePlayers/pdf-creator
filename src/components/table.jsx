@@ -1,23 +1,15 @@
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { Grid, Button, IconButton, Typography } from "@mui/material";
 import TableField from "./TableField";
 import Row from "./Row";
 import Column from "./Column";
 import { Add, Delete } from "@mui/icons-material";
 import shortid from "shortid";
-const Table = ({ table, onDataChange,cellWidth, cellHeight, borderColor }) => {
+const Table = ({ table, onDataChange,cellWidth }) => {
   const [tableData, setTableData] = useState(table??[]);
-  const stringifyTable = JSON.stringify(tableData);
 
   const handleRemoveRow = (rowIndex) => {
     tableData.splice(rowIndex, 1);
-    onDataChange(tableData);
-    setTableData([...tableData]);
-  }
-  const handleRemoveColumn = (colIndex) => {
-    for (let i = 0; i < tableData.length; i++) {
-        tableData[i].splice(colIndex, 1);
-    }
     onDataChange(tableData);
     setTableData([...tableData]);
   }

@@ -4,7 +4,7 @@ import { useEffect, useState } from 'react';
 import Column from './components/Column';
 import PDFBuilderPanel from './pdf_builder_panel';
 import PDFBuilderView from './pdf_builder_view';
-import { PDFJSONParser } from './pdf-json-parser';
+import { PDFJSONParser } from "ruki-react-pdf-creator";
 import jsonfile from './pdf-components(1_11_2024, 12_15_02 PM)';
 
 function App() {
@@ -14,7 +14,8 @@ function App() {
   useEffect(()=>{
     PDFJSONParser(jsonfile,
       {
-        businessName:"DearfxchTV",
+        companyName:"DearfxchTV",
+        logo:"image",
         items: [
       {
         colId: "ITEM",

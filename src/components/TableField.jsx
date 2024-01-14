@@ -4,7 +4,6 @@ import MenuItem from "@mui/material/MenuItem";
 import Typography from "@mui/material/Typography";
 import {
   InputBase,
-  Grid,
   TextField,
   Card,
   CardContent,
@@ -13,13 +12,12 @@ import {
   FormControl,
 } from "@mui/material";
 import { CirclePicker } from "react-color";
-import { StandardFonts } from "pdf-lib";
+import { StandardFonts } from "ruki-react-pdf-creator";
 import Row from "./Row";
 
 //{TEXT: STRING, FONT: STRING, SIZE: INT, COLOR: STRING, ID: STRING}
 const TableField = ({ data, onDataChange }) => {
   const [tableData, setTableData] = useState(data);
-  const tableDataString = JSON.stringify(tableData);
 
   const [contextMenu, setContextMenu] = useState(null);
   const [anchorEl, setAnchorEl] = useState(null);
