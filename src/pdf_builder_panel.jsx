@@ -55,7 +55,7 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
         const result = await PDFJSONParser(json,{
             logo:"http://www.photo-paysage.com/albums/Paysages/Lac-riviere-cascade/paradis-lac-cascade-plitvice.jpg"
         })
-        setComponents(result.components);
+        setComponents(result.components.sort((a,b)=>a.data.y - b.data.y));
         setPageSettings(result.pageSettings);
         onUpdated && onUpdated(json.components);
         onPageSettingUpdated && onPageSettingUpdated(json.pageSettings);
@@ -294,7 +294,7 @@ const PDFBuilderPanel = ({ pageSetting:pageSettingDefault, components: component
       </Grid>
       <Grid item xs={12}>
         {
-            components.sort((a,b)=>a.data.y - b.data.y).map((c, i) => {
+            components.map((c, i) => {
                 return <Accordion style={{marginBottom: 10}} key={c.id}>
                     <AccordionSummary  expandIcon={<ExpandMore />}>
                         <Row style={{width:"100%", alignItems:"center"}} alignment="space-between">

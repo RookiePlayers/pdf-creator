@@ -29,7 +29,7 @@ function App() {
       },
     ]}).then((result)=>{
     
-    setComponents(result.components)
+    setComponents(result.components.sort((a,b)=>a.data.y - b.data.y))
     setPageSetting(result.pageSettings)
     setLoading(false)
   }).catch((error)=>{
