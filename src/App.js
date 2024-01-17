@@ -6,7 +6,7 @@ import PDFBuilderPanel from './pdf_builder_panel';
 import PDFBuilderView from './pdf_builder_view';
 import { PDFJSONParser } from "ruki-react-pdf-creator";
 import jsonfile from './pdf-components(1_11_2024, 12_15_02 PM)';
-
+import logo from "./assets/logo192.png";
 function App() {
   const [loading, setLoading] = useState(true)
   const [components, setComponents] = useState([])
@@ -15,7 +15,7 @@ function App() {
     PDFJSONParser(jsonfile,
       {
         companyName:"DearfxchTV",
-        logo:"image",
+        logo:logo,
         items: [
       {
         colId: "ITEM",

@@ -7,3 +7,5 @@ export function _arrayBufferToBase64( buffer ) {
     }
     return window.btoa( binary );
   }
+
+  
