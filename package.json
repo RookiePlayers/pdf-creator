@@ -15,7 +15,7 @@
     "react-color": "^2.19.3",
     "react-dom": "^18.2.0",
     "react-scripts": "5.0.1",
-    "ruki-react-pdf-creator": "^1.0.2",
+    "ruki-react-pdf-creator": "^1.0.5",
     "ruki-react-upload-box": "1.0.1",
     "shortid": "^2.2.16",
     "web-vitals": "^2.1.4"
